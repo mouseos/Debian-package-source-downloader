@@ -21,7 +21,7 @@ pkgcount=($(dpkg -l | grep '^ii' | awk '{print "apt-get source " $2"=" $3 }'))
 count=0
 for eachValue in ${pkgcount[@]}; do
     echo ${eachValue}
-count=$((++count))
+count=$((++count)) 
 done
  if (whiptail --title "確認" --yesno "$count 個のパッケージを検出しました。ソースファイルを取得しますか？"  0 0)
 then 
