@@ -20,5 +20,5 @@ done < ./sources.list.txt
 
 clear
 whiptail --msgbox "\nダウンロードが完了しました｡\n" 0 0
-cd - >&2 /dev/null
+cd - > /dev/null
 exit 0
