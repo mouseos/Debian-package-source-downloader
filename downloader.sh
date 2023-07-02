@@ -9,7 +9,7 @@ whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii' | cut -d " " -f1)�
 
 clear
 
-mkdir -p ./package_sources/ && cd ./package_sources/
+mkdir -p ./package_sources/ && cd ./package_sources/ || return
 dpkg -l | grep '^ii' | awk '{print $2"="$3 > "./sources.list.txt"}'
 
 count=0
