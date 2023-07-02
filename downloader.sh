@@ -1,37 +1,24 @@
 #!/bin/bash
 
-function exitScript() {
-  echo "処理を中止しました"
+if !(whiptail --title "確認" --yesno "$(dpkg -l | grep '^ii' | wc -l | cut -d " " -f1)個のパッケージを検出しました｡\nソースファイルを取得しますか？" 0 0); then
+  echo "処理を中止しました｡"
   exit 1
-}
+fi
 
-whiptail --msgbox "このプログラムはシステムにインストールされたソフトウェアを検出し自動でソースファイルをダウンロードするものです。\nGPLライセンスの関係上、自作ディストリビューションを配布するときに必要となるものです。" 0 0
-whiptail --title "確認" --yesno "パッケージの検出を行いますか？" 0 0
-if [ $? != 0 ]; then exitScript; fi
+clear
 
 mkdir -p ./package_sources/
 cd ./package_sources/
-echo -n > sources.list.txt
-
-pkgCount=$(dpkg -l | grep '^ii' | awk '{print "apt-get source " $2"="$3}')
-
-count=0
-for eachValue in ${pkgCount[@]}; do
-  count=$((++count))
-done
-
-clear
-whiptail --title "確認" --yesno "${count}個のパッケージを検出しました。\nソースファイルを取得しますか？" 0 0
-if [ $? != 0 ]; then exitScript; fi
-aptScript=$(dpkg -l | grep '^ii' | awk '{print $2"="$3 > "./sources.list.txt"}')
+dpkg -l | grep '^ii' | awk '{print $2"="$3 > "./sources.list.txt"}'
 
 count=0
 while read line; do
   count=$((++count))
-  echo -e "\n${count}個目です\n"
-  apt-get source $line
+  echo -e "\n\n${count}個目：$line\n"
+  apt-get source $line || echo -e "\n例外なエラーが発生しました：$?"
 done < ./sources.list.txt
 
-whiptail --msgbox "ダウンロードが完了しました。" 0 0
 clear
+whiptail --msgbox "\nダウンロードが完了しました｡\n" 0 0
+cd - >&2 /dev/null
 exit 0
