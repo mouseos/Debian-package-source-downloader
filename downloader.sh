@@ -5,8 +5,7 @@ ex1() {
   exit 1
 }
 
-#shellcheck disable=SC1089
-whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii' | cut -d " " -f1)個のパッケージを検出しました｡\nソースファイルを取得しますか？" 0 0) || ex1 "処理を中止しました｡"
+whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii' | cut -d " " -f1)個のパッケージを検出しました｡\nソースファイルを取得しますか？" 0 0 || ex1 "処理を中止しました｡"
 
 clear
 
