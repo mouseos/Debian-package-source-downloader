@@ -7,7 +7,7 @@ abort() {
   fi
 }
 
-whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii' | cut -d " " -f1)個のパッケージを検出しました｡\nソースファイルを取得しますか？" 0 0 || abort "処理を中止しました｡" 1
+whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii')個のパッケージを検出しました｡\nソースファイルを取得しますか？" 0 0 || abort "処理を中止しました｡" 1
 
 clear
 
