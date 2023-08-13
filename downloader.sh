@@ -11,7 +11,7 @@ whiptail --title "確認" --yesno "$(dpkg -l | grep -c '^ii')個のパッケー�
 
 clear
 
-mkdir -p ./package_sources/ && cd ./package_sources/ || return
+mkdir -p package_sources && cd package_sources || abort "\nダウンロードディレクトリの作成に失敗しました｡" 1
 dpkg -l | grep '^ii' | awk '{print $2"="$3 > "./sources.list.txt"}'
 
 count=0
